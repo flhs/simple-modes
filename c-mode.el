@@ -18,7 +18,7 @@
   (use-local-map c-mode-map)
   (set (make-local-variable 'tab-width) 8)
   (set (make-local-variable 'comment-start) "/* ")
-  (set (make-local-variable 'comment-start) " */")
+  (set (make-local-variable 'comment-end) " */")
   (set (make-local-variable 'comment-start-skip) "\\(//+\\|/\\*+\\)\\s *")
   (set (make-local-variable 'require-final-newline) t)
   (setq major-mode 'c-mode)
