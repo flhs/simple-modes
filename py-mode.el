@@ -19,7 +19,7 @@
   (let ((start (line-beginning-position))
 	(end (point)))
     (if (or (= start end)
-	    (and (< end (line-end-position))
+	    (and (<= end (line-end-position))
 		 (string-match "^[ \t]*$" (buffer-substring start end))))
 	(py-indent-line)
       (insert-char ?\  (- tab-width (% (current-column) tab-width))))))
@@ -35,6 +35,12 @@
 		      (make-string len ?\ )))
 	(delete-region start end))))
 
+(defun py-set-indent-tabs-mode ()
+  (save-excursion
+    (if (re-search-forward "^\t" nil t)
+	(set (make-local-variable 'indent-tabs-mode) t)
+      (set (make-local-variable 'indent-tabs-mode) nil))))
+
 (defvar py-mode-map
   (let ((map (make-sparse-keymap)))
     (define-key map (kbd "TAB") 'py-tab)
@@ -47,8 +53,8 @@
   (interactive)
   (kill-all-local-variables)
   (use-local-map py-mode-map)
+  (py-set-indent-tabs-mode)
   (set (make-local-variable 'tab-width) 4)
-  (set (make-local-variable 'indent-tabs-mode) nil)
   (set (make-local-variable 'comment-start) "# ")
   (set (make-local-variable 'comment-start-skip) "#+\\s-*")
   (set (make-local-variable 'require-final-newline) t)
