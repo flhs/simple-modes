@@ -26,14 +26,14 @@
 
 (defun py-del ()
   (interactive)
-  (delete-backward-char 1)
-  (let* ((len (% (current-column) tab-width))
+  (let* ((len (+ 1 (% (- (current-column) 1) tab-width)))
 	 (end (point))
 	 (start (- end len)))
     (if (and (> len 0)
 	     (string= (buffer-substring start end)
 		      (make-string len ?\ )))
-	(delete-region start end))))
+	(delete-region start end)
+      (delete-backward-char 1))))
 
 (defun py-set-indent-tabs-mode ()
   (save-excursion
